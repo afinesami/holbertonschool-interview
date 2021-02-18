@@ -5,7 +5,7 @@
 
 def validUTF8(data):
     """ validate utf-8 in data comming """
-    
+
     count = 0
 
     for bit in data:
