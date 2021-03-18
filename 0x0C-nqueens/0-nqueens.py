@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-''' Python3 program to solve N Queen Problem using 
-backtracking '''
+''' Python3 program to solve N Queen '''
 import sys
 
 
@@ -23,9 +22,7 @@ k = 1
 
 
 def printSolution(board):
-    """
-    A utility function to print solution 
-    """
+""" A utility function to print solution """
     queens = []
     global k
     k = k + 1
@@ -37,12 +34,6 @@ def printSolution(board):
 
 
 def isSafe(board, row, col):
-    ''' A utility function to check if a queen can 
-    be placed on board[row][col]. Note that this 
-    function is called when "col" queens are 
-    already placed in columns from 0 to col -1. 
-    So we need to check only left side for 
-    attacking queens '''
     for i in range(col):
         if board[row][i]:
             return False
@@ -64,14 +55,7 @@ def isSafe(board, row, col):
 
 
 def solveNQUtil(board, col):
-    ''' This function solves the N Queen problem using 
-    Backtracking. It mainly uses solveNQUtil() to 
-    solve the problem. It returns false if queens 
-    cannot be placed, otherwise return true and 
-    prints placement of queens in the form of 1s. 
-    Please note that there may be more than one 
-    solutions, this function prints one of the 
-    feasible solutions.'''
+""" This function solves the N Queen problem """
     if col == N:
         printSolution(board)
         return True
@@ -85,14 +69,12 @@ def solveNQUtil(board, col):
 
 
 def solveNQ():
-    """
-    solve NQ
-    """
+""" solve NQ """
     board = [[0 for j in range(N)] for i in range(N)]
     if solveNQUtil(board, 0) is False:
         pass
         return
     return
 
-# Driver Code 
+
 solveNQ()
