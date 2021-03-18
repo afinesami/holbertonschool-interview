@@ -22,7 +22,7 @@ k = 1
 
 
 def printSolution(board):
-""" A utility function to print solution """
+    """ A utility function to print solution """
     queens = []
     global k
     k = k + 1
@@ -55,7 +55,7 @@ def isSafe(board, row, col):
 
 
 def solveNQUtil(board, col):
-""" This function solves the N Queen problem """
+    """ This function solves the N Queen problem """
     if col == N:
         printSolution(board)
         return True
@@ -69,7 +69,7 @@ def solveNQUtil(board, col):
 
 
 def solveNQ():
-""" solve NQ """
+    """ solve NQ """
     board = [[0 for j in range(N)] for i in range(N)]
     if solveNQUtil(board, 0) is False:
         pass
