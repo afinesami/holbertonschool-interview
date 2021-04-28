@@ -2,63 +2,38 @@
 /**
  * 0x0F. Star Wars API
  */
-const process = require('process');
+
+const args = process.argv.slice(2);
+if (args < 1) {
+  console.log('Error');
+  process.exit(1);
+}
+
+const episode = args[0];
+
+const url = 'https://swapi-api.hbtn.io/api/films/' + episode;
 const request = require('request');
-
-if (process.argv.length !== 3) {
-  process.exit(0);
-}
-
-const command1 = 'films/' + process.argv[2];
-const urlApi = 'https://swapi-api.hbtn.io/api/';
-const request1 = urlApi + command1;
-let list = [];
-let currentId = -1;
-let limitMax = 0;
-
-/**
- * loadUrlApi fn that connect with api
- *
- * @return void and load default fn to read names
- */
-function loadUrlApi () {
-  request(request1, function (error, response, body) {
-    if (error) {
-      console.log('error:', error);
-      // throw error
-      process.exit(1);
-    }
-    list = JSON.parse(body).characters;
-    currentId = 0;
-    if (Array.isArray(list)) {
-      limitMax = list.length;
-      loadFilmName();
-    }
-  });
-}
-
-/**
- * loadFilmName fn recursive that load film name
- *
- * @return void
- */
-function loadFilmName () {
-  if (limitMax > currentId) {
-    request(list[currentId], function (error, response, body) {
-      if (error) {
-        console.log('error:', error);
-        // throw error
-        process.exit(1);
+let characters = [];
+request(url, (err, resp, body) => {
+  if (err || resp.statusCode !== 200) console.log(err);
+  else characters = JSON.parse(body).characters;
+  const size = Object.keys(characters).length;
+  const array = Array(size).fill();
+  let data = 0;
+  for (let i = 0; i < size; i++) {
+    request(characters[i], (erro, respo, bodys) => {
+      if (erro || respo.statusCode !== 200) console.log(erro);
+      else {
+        array[i] = JSON.parse(bodys).name;
+        data++;
       }
-      const name = JSON.parse(body).name;
-      console.log(name);
-      loadFilmName();
-    });
-    currentId++;
-  }
-}
+      if (data === size) {
+        for (let j = 0; j < size; j++) {
+          console.log(array[j]);
+        }
+      }
+    }
 
-/**
- * loadUrlApi fn run script
- */
-loadUrlApi();
+    );
+  }
+});
