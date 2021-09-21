@@ -1,2 +1,2 @@
-# 0x10. Rain
-## Specializations - Interview Preparation ― Algorithms
+#0x10. Rain
+## By Jesse Hedden, Software Engineer at Holberton School
