@@ -1,39 +1,32 @@
 #!/usr/bin/node
-/**
- * 0x0F. Star Wars API
- */
+const id = process.argv[2];
+const url = 'https://swapi-api.hbtn.io/api/films/' + id;
+const request = require('request');
 
-const args = process.argv.slice(2);
-if (args < 1) {
-  console.log('Error');
-  process.exit(1);
+function retrive (urlChar) {
+  return new Promise(function (resolve, reject) {
+    request(urlChar, function getChar (err2, response2, body2) {
+      if (err2) {
+        reject(err2);
+      } else {
+        resolve(JSON.parse(body2).name);
+      }
+    });
+  });
 }
 
-const episode = args[0];
+async function getlist (urlist) {
+  for (const urlChar of urlist) {
+    const character = await retrive(urlChar);
+    console.log(character);
+  }
+}
 
-const url = 'https://swapi-api.hbtn.io/api/films/' + episode;
-const request = require('request');
-let characters = [];
-request(url, (err, resp, body) => {
-  if (err || resp.statusCode !== 200) console.log(err);
-  else characters = JSON.parse(body).characters;
-  const size = Object.keys(characters).length;
-  const array = Array(size).fill();
-  let data = 0;
-  for (let i = 0; i < size; i++) {
-    request(characters[i], (erro, respo, bodys) => {
-      if (erro || respo.statusCode !== 200) console.log(erro);
-      else {
-        array[i] = JSON.parse(bodys).name;
-        data++;
-      }
-      if (data === size) {
-        for (let j = 0; j < size; j++) {
-          console.log(array[j]);
-        }
-      }
-    }
-
-    );
+request(url, function getList (err, response, body) {
+  if (err) {
+    throw err;
+  } else {
+    const urlist = JSON.parse(body).characters;
+    getlist(urlist);
   }
 });
